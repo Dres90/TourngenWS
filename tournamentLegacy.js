@@ -4,11 +4,7 @@ var host = connect.host;
 var user = connect.user;
 var password = connect.password;
 var database = connect.database;
-var cert = connect.certificate;
 var express = require('express');
-var https = require('https');
-
-
 var connection = mysql.createConnection({
   host:host, user:user, password:password, database:database
 });
@@ -36,5 +32,4 @@ app.get('/Tournament/:id', function(req, res, next) {
 });
 });
 
-
-https.createServer(cert,app).listen(2800);
+app.listen(2801);
