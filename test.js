@@ -1,5 +1,5 @@
 var spawn = require('child_process').spawn,
-passTest = spawn('python', ['passTest.py', 'param1', 'param2', 'param3']);
+passTest = spawn('python', ['passTest.py', 'param1', 'param2', 'param3', 'param4']);
 
 passTest.stdout.on('data', function(data)
 {
