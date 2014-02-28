@@ -4,15 +4,15 @@ from django.conf import global_settings
 if not settings.configured:
     settings.configure(global_settings, DEBUG=True)
 import sys
-import django.contrib.auth.hashers
+from django.contrib.auth import hashers
 
 if sys.argv[1] == "check":
 
 	raw =  sys.argv[2]
 	hash = sys.argv[3]
 
-	if is_password_usable(hash):
-		if check_password(raw,hash):
+	if hashers.is_password_usable(hash):
+		if hashers.check_password(raw,hash):
 			sys.stdout.write("1")
 			sys.stdout.flush()
 			sys.exit(0)
@@ -27,7 +27,7 @@ if sys.argv[1] == "check":
 		
 elif sys.argv[1] == "make":
 	raw =  sys.argv[2]
-	hash = make_password(raw)
+	hash = hashers.make_password(raw)
 	sys.stdout.write(hash)
 	sys.stdout.flush()
 	sys.exit(0)
