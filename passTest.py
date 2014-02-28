@@ -27,5 +27,5 @@ elif sys.argv[1] == "make":
 	sys.stdout.flush()
 	sys.exit(0)
 
-else 
+else: 
 sys.exit(0)
