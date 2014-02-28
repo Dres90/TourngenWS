@@ -28,4 +28,4 @@ elif sys.argv[1] == "make":
 	sys.exit(0)
 
 else: 
-sys.exit(0)
+	sys.exit(0)
