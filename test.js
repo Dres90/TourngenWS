@@ -1,6 +1,11 @@
-var spawn = require('child_process').spawn,
+var spawn = require('child_process').spawn;
 
-passTest = spawn('python', ['passTest.py', 'param1', 'param2', 'param3', 'param4']);
+var filename = 'passTest.py';
+var arg1 = 'check';
+var arg2 = 'Simple123';
+var arg3 = 'pbkdf2_sha256$10000$NmzpPCQiTe2R$U8ipSsOy3Xz7FwWDHdH/dTei8Xh4Q7NGtdzrCacSfvo=';
+
+var passTest = spawn('python', [filename, arg1, arg2, arg3]);
 
 passTest.stdout.on('data', function(data)
 {
