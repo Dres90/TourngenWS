@@ -1,8 +1,8 @@
 import django
 from django.conf import settings
-from tourngen import tourngen_defaults
+from django.conf import global_settings
 if not settings.configured:
-    settings.configure(myapp_defaults, DEBUG=True)
+    settings.configure(global_settings, DEBUG=True)
 import sys
 import django.contrib.auth.hashers
 
