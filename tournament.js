@@ -1,24 +1,27 @@
+/*
+Web Services for interaction with Tournaments
+Requires NodeJS
+Andres Cardenas
+28/02/2014
+*/
+
+//Import necessary modules
 var connect = require ('./connect.js');
 var mysql  = require('mysql');
-var host = connect.host;
-var user = connect.user;
-var password = connect.password;
-var database = connect.database;
-var cert = connect.certificate;
 var express = require('express');
 var https = require('https');
 
-
+//Create connection to mysql database
 var connection = mysql.createConnection({
-  host:host, user:user, password:password, database:database
+  host:connect.host, 
+  user:connect.user, 
+  password:connect.password, 
+  database:connect.database
 });
 
-var app = express()
-app.use(express.bodyParser())
 
-app.get('/',function(req, res) {
-  res.send('Wrong')
-})
+var app = express();
+app.use(express.bodyParser());
 
 app.get('/Tournament/', function(req, res, next) {
 	connection.query('SELECT * from Tournament', function(err, rows, fields) {
@@ -37,4 +40,4 @@ app.get('/Tournament/:id', function(req, res, next) {
 });
 
 
-https.createServer(cert,app).listen(2800);
+https.createServer(connect.certificate,app).listen(2800);

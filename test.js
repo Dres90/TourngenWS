@@ -1,4 +1,13 @@
-var spawn = require('child_process').spawn;
+var today = new Date();
+var expiring = new Date();
+expiring.setDate(today.getDate()+365);
+var expire = expiring.toISOString().slice(0, 19).replace('T', ' ');
+console.log(expire);
+
+
+
+
+/*var spawn = require('child_process').spawn;
 
 var filename = 'passTest.py';
 var arg1 = 'check';
@@ -17,3 +26,4 @@ passTest.stderr.on('data', function (data) {
 passTest.on('close', function (code) {
   console.log('child process exited with code ' + code);
 });
+*/

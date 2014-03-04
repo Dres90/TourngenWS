@@ -30,7 +30,6 @@ if sys.argv[1] == "check":
 
 	raw =  sys.argv[2]
 	hash = sys.argv[3]
-
 	if hashers.is_password_usable(hash):
 		if hashers.check_password(raw,hash):
 			sys.stdout.write("1")
