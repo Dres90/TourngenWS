@@ -1,5 +1,3 @@
 Login Test
 
-curl -k  -X GET  -H "Accept: Application/json" -H "Content-Type: application/json" https://localhost:2800/Login/ -d '{"username":"'ricardo'","password":"'password'","identifier":"'galaxy'"}' | grep }| python -mjson.tool
-
-curl -k  -X POST  -H "Accept: Application/json" -H "Content-Type: application/json" https://localhost:2800/Login/ -d '{"id":"IDVALUE","name":"Mike"}' | grep }| python -mjson.tool
+curl -k  -X GET  -H "Accept: Application/json" -H "Content-Type: application/json" https://localhost:2800/Login/ -d '{"username":"'pedrito1035'","password":"'password'","identifier":"'galaxy'"}'

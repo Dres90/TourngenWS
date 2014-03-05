@@ -41,6 +41,7 @@ if sys.argv[1] == "check":
 			sys.exit(0)
 	else:
 		sys.stdout.write("-1")
+		sys.stdout.write(hash)
 		sys.stdout.flush()
 		sys.exit(0)
 

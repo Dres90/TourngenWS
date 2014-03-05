@@ -1,18 +1,9 @@
-var today = new Date();
-var expiring = new Date();
-expiring.setDate(today.getDate()+365);
-var expire = expiring.toISOString().slice(0, 19).replace('T', ' ');
-console.log(expire);
+var spawn = require('child_process').spawn;
 
-
-
-
-/*var spawn = require('child_process').spawn;
-
-var filename = 'passTest.py';
+var filename = 'user_auth.py';
 var arg1 = 'check';
-var arg2 = 'Simple123';
-var arg3 = 'pbkdf2_sha256$10000$NmzpPCQiTe2R$U8ipSsOy3Xz7FwWDHdH/dTei8Xh4Q7NGtdzrCacSfvo=';
+var arg2 = 'password';
+var arg3 = 'pbkdf2_sha256$12000$2aS385R1SGdZ$vEf5Bl1ebsXxKfeRnIo6+SUnD7i5hq5oCN5hcJVGwUM=';
 
 var passTest = spawn('python', [filename, arg1, arg2, arg3]);
 
@@ -26,4 +17,3 @@ passTest.stderr.on('data', function (data) {
 passTest.on('close', function (code) {
   console.log('child process exited with code ' + code);
 });
-*/

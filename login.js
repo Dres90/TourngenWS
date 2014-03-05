@@ -7,22 +7,23 @@ Andres Cardenas
 
 //Import necessary modules
 var connect = require ('./connect.js');
+var utilities = require ('./utilities.js');
 var mysql  = require('mysql');
-var express = require('express');
-var https = require('https');
 
 //Create connection to mysql database
-var connection = mysql.createConnection({
-  host:connect.host, 
-  user:connect.user, 
-  password:connect.password, 
-  database:connect.database
+var connection = mysql.createConnection(
+{
+	host:connect.host, 
+	user:connect.user, 
+	password:connect.password, 
+	database:connect.database
 });
 
-//Initial configuration for Express
-var app = express();
-app.use(express.json());
-app.use(express.urlencoded());
+//Start connection to MySQL
+connection.connect(function(err)
+{
+	if (err) throw err;
+});
 
 /*
 Login GET Web Service
@@ -33,49 +34,167 @@ It inserts the token into the database and makes it valid for a year after creat
 It also returns the token to the client
 If the login is incorrect, a JSON with an incorrect status is passed to the client
 */
-app.get('/Login/', function(req, res, next) {
-var body = req.body;
-var user = body.username;
-var password = body.password;
-var identifier = body.identifier;
-
-
-var crypto    = require('crypto');
-var now		  = new Date();	
-var text      = user+identifier+now;
-var key       = 'secret';
-var algorithm = 'sha256';
-var hash, hmac;
-hmac = crypto.createHmac(algorithm, key);
-hmac.setEncoding('base64');
-hmac.write(text);
-hmac.end();
-rawhash = hmac.read();
-hash = connection.escape(rawhash);
-var expiring = new Date();
-expiring.setDate(now.getDate()+365);
-var expire = expiring.toISOString().slice(0, 19).replace('T', ' ');
-connection.query('INSERT into Token VALUES ('+hash+',1,"'+expire+'")', function(err, rows, fields)
+var Get = function(req, res, next) 
 {
-	 if (err) throw err;
-});
+	var body = req.body;
+	var user = body.username;
+	var password = body.password;
+	var identifier = body.identifier;
+	
+	var sql = 'SELECT id,password from auth_user WHERE username = ?';
+	var params = [user];
+	sql = mysql.format(sql,params);
+	connection.query(sql, function(err, user_rows, user_fields)
+	{
+		if (err||user_rows.length<1) //If user does not exist or error in the query
+		{
+			var response = {};
+			response.success = false;
+			response.message = 'wrong_credentials';
+			res.json(response);
+		}
+		else
+		{
+			var spawn = require('child_process').spawn;
+			var filename = 'user_auth.py';
+			var arg1 = 'check';
+			var arg2 = password;
+			var arg3 = user_rows[0].password;
+			var passTest = spawn('python', [filename, arg1, arg2, arg3]);
 
-res.send(hash);
-});
+			passTest.stdout.on('data', function(data)
+			{
+				if (data=='0'||data=='-1')	//If password is not correct
+				{
+					var response = {};
+					response.success = false;
+					response.message = 'wrong_credentials';
+					res.json(response);
+				}
+				else 
+				{
+					var now = new Date();
+					var hash = createToken(user,identifier);
+					var expiring = new Date();
+					expiring.setDate(now.getDate()+365);
+					var expire = utilities.mysql_date(expiring);
+					var sql = 'INSERT into Token VALUES (?,?,?)';
+					var params = [hash,user_rows[0].id,expire];
+					sql = mysql.format(sql,params);
+					connection.query(sql, function(err)
+					{
+						var response = {};
+						if (err) 
+						{
+							response.success = false;
+							response.message = err.code;
+						}
+						else
+						{	
+							response.success = true;
+							response.token = hash;
+						}
+						res.json(response);
+					});
+				}
+			});	
+		}		
+	});
+}
 
-app.post('/Login/:user/:pass', function(req, res, next) {
-var user = connection.escape(req.params.user);
-var pass = connection.escape(req.params.pass);
-res.send(JSON.stringify(req.body));
-});
+/*
+Login POST Web Service
+Receives a JSON with the username, password, e-mail, first name, last name
+It validates that the username is not taken
+It returns a JSON with incorrect status and a message if it is
+If the username is available it creates the user and returns a JSON with a success status
+*/
+var Post = function(req, res, next) 
+{
+	var body = req.body;
+	var user = body.username;
+	var password = body.password;
+	var email = body.email;
+	var firstName = body.first_name;
+	var lastName = body.last_name;
 
-app.get('/Tournament/:id', function(req, res, next) {
-	connection.query('SELECT * from Tournament where Tournament_id = ' + connection.escape(req.params.id), function(err, rows, fields) {
-  if (err) throw err;
-  var jsonString = JSON.stringify(rows);
-  res.send(jsonString);
-});
-});
+	var sql = 'SELECT id,password from auth_user WHERE username = ?';
+	var params = [user];
+	sql = mysql.format(sql,params);
+	connection.query(sql, function(err, user_rows, user_fields)
+	{
+		if (err||user_rows.length<1)
+		{
+			var response = {};
+			response.success = false;
+			response.message = 'wrong_credentials';
+			res.json(response);
+		}
+		else
+		{
+			var spawn = require('child_process').spawn;
+			var filename = 'user_auth.py';
+			var arg1 = 'check';
+			var arg2 = password;
+			var arg3 = user_rows[0].password;
+			var passTest = spawn('python', [filename, arg1, arg2, arg3]);
+
+			passTest.stdout.on('data', function(data)
+			{
+				if (data=='0'||data=='-1')
+				{
+					var response = {};
+					response.success = false;
+					response.message = 'wrong_credentials';
+					res.json(response);
+				}
+				else 
+				{
+					var now = new Date();
+					var hash = createToken(user,identifier);
+					var expiring = new Date();
+					expiring.setDate(now.getDate()+365);
+					var expire = expiring.toISOString().slice(0, 19).replace('T', ' ');
+					var sql = 'INSERT into Token VALUES (?,?,?)';
+					var params = [hash,user_rows[0].id,expire];
+					sql = mysql.format(sql,params);
+					connection.query(sql, function(err)
+					{
+						var response = {};
+						if (err) 
+						{
+							response.success = false;
+							response.message = err.code;
+						}
+						else
+						{	
+							response.success = true;
+							response.token = hash;
+						}
+						res.json(response);
+					});
+				}
+			});	
+		}		
+	});
+}
 
 
-https.createServer(connect.certificate,app).listen(2800);
+//Create unique token using the user and identifier passed
+function createToken(user,identifier)
+{
+	var crypto    = require('crypto');
+	var now		  = new Date();	
+	var text      = user+identifier+now;
+	var key       = 'secret';
+	var algorithm = 'sha256';
+	var hash, hmac;
+	hmac = crypto.createHmac(algorithm, key);
+	hmac.setEncoding('base64');
+	hmac.write(text);
+	hmac.end();
+	hash = hmac.read();
+	return hash;
+}
+
+module.exports.Get = Get;
