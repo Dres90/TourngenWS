@@ -41,65 +41,75 @@ var Get = function(req, res, next)
 	var password = body.password;
 	var identifier = body.identifier;
 	
-	var sql = 'SELECT id,password from auth_user WHERE username = ?';
-	var params = [user];
-	sql = mysql.format(sql,params);
-	connection.query(sql, function(err, user_rows, user_fields)
+	if ((!body)||(!user)||(!password)||(!identifier)) //Checks if inputs are null
 	{
-		if (err||user_rows.length<1) //If user does not exist or error in the query
+		var response = {};
+		response.success = false;
+		response.message = 'null_data';
+		res.json(response);
+	}
+	else
+	{
+		var sql = 'SELECT id,password from auth_user WHERE username = ?';
+		var params = [user];
+		sql = mysql.format(sql,params);
+		connection.query(sql, function(err, user_rows, user_fields)
 		{
-			var response = {};
-			response.success = false;
-			response.message = 'wrong_credentials';
-			res.json(response);
-		}
-		else
-		{
-			var spawn = require('child_process').spawn;
-			var filename = 'user_auth.py';
-			var arg1 = 'check';
-			var arg2 = password;
-			var arg3 = user_rows[0].password;
-			var passTest = spawn('python', [filename, arg1, arg2, arg3]);
-
-			passTest.stdout.on('data', function(data)
+			if (err||user_rows.length<1) //If user does not exist or error in the query
 			{
-				if (data=='0'||data=='-1')	//If password is not correct
+				var response = {};
+				response.success = false;
+				response.message = 'wrong_credentials';
+				res.json(response);
+			}
+			else
+			{
+				var spawn = require('child_process').spawn;
+				var filename = 'user_auth.py';
+				var arg1 = 'check';
+				var arg2 = password;
+				var arg3 = user_rows[0].password;
+				var passTest = spawn('python', [filename, arg1, arg2, arg3]);
+
+				passTest.stdout.on('data', function(data)
 				{
-					var response = {};
-					response.success = false;
-					response.message = 'wrong_credentials';
-					res.json(response);
-				}
-				else 
-				{
-					var now = new Date();
-					var hash = createToken(user,identifier);
-					var expiring = new Date();
-					expiring.setDate(now.getDate()+365);
-					var expire = utilities.mysql_date(expiring);
-					var sql = 'INSERT into Token VALUES (?,?,?)';
-					var params = [hash,user_rows[0].id,expire];
-					sql = mysql.format(sql,params);
-					connection.query(sql, function(err)
+					if (data=='0'||data=='-1')	//If password is not correct
 					{
 						var response = {};
-						if (err) 
-						{
-							response.success = false;
-							response.message = err.code;
-						}
-						else
-						{	
-							response.success = true;
-							response.token = hash;
-						}
+						response.success = false;
+						response.message = 'wrong_credentials';
 						res.json(response);
-					});
-				}
-			});	
-		}		
-	});
+					}
+					else 
+					{
+						var now = new Date();
+						var hash = createToken(user,identifier);
+						var expiring = new Date();
+						expiring.setDate(now.getDate()+365);
+						var expire = utilities.mysql_date(expiring);
+						var sql = 'INSERT into Token VALUES (?,?,?)';
+						var params = [hash,user_rows[0].id,expire];
+						sql = mysql.format(sql,params);
+						connection.query(sql, function(err)
+						{
+							var response = {};
+							if (err) 
+							{
+								response.success = false;
+								response.message = err.code;
+							}
+							else
+							{	
+								response.success = true;
+								response.token = hash;
+							}
+							res.json(response);
+						});
+					}
+				});	
+			}		
+		});
+	}
 }
 
 /*
@@ -109,7 +119,7 @@ It validates that the username is not taken
 It returns a JSON with incorrect status and a message if it is
 If the username is available it creates the user and returns a JSON with a success status
 */
-var Post = function(req, res, next) 
+var Post = function(req, res, next)
 {
 	var body = req.body;
 	var user = body.username;
@@ -117,68 +127,78 @@ var Post = function(req, res, next)
 	var email = body.email;
 	var firstName = body.first_name;
 	var lastName = body.last_name;
-
-	var sql = 'SELECT id,password from auth_user WHERE username = ?';
-	var params = [user];
-	sql = mysql.format(sql,params);
-	connection.query(sql, function(err, user_rows, user_fields)
+	
+	//Checks if inputs are null
+	if ((!body)||(!user)||(!password)||(!email)||(!firstName)||(!lastName)) 
 	{
-		if (err||user_rows.length<1)
+		var response = {};
+		response.success = false;
+		response.message = 'null_data';
+		res.json(response);
+	}
+	else
+	{
+		var sql = 'SELECT id,password from auth_user WHERE username = ?';
+		var params = [user];
+		sql = mysql.format(sql,params);
+		connection.query(sql, function(err, user_rows, user_fields)
 		{
-			var response = {};
-			response.success = false;
-			response.message = 'wrong_credentials';
-			res.json(response);
-		}
-		else
-		{
-			var spawn = require('child_process').spawn;
-			var filename = 'user_auth.py';
-			var arg1 = 'check';
-			var arg2 = password;
-			var arg3 = user_rows[0].password;
-			var passTest = spawn('python', [filename, arg1, arg2, arg3]);
-
-			passTest.stdout.on('data', function(data)
+			if (err||user_rows.length<1) //If user does not exist or error in the query
 			{
-				if (data=='0'||data=='-1')
+				var response = {};
+				response.success = false;
+				response.message = 'wrong_credentials';
+				res.json(response);
+			}
+			else
+			{
+				var spawn = require('child_process').spawn;
+				var filename = 'user_auth.py';
+				var arg1 = 'check';
+				var arg2 = password;
+				var arg3 = user_rows[0].password;
+				var passTest = spawn('python', [filename, arg1, arg2, arg3]);
+
+				passTest.stdout.on('data', function(data)
 				{
-					var response = {};
-					response.success = false;
-					response.message = 'wrong_credentials';
-					res.json(response);
-				}
-				else 
-				{
-					var now = new Date();
-					var hash = createToken(user,identifier);
-					var expiring = new Date();
-					expiring.setDate(now.getDate()+365);
-					var expire = expiring.toISOString().slice(0, 19).replace('T', ' ');
-					var sql = 'INSERT into Token VALUES (?,?,?)';
-					var params = [hash,user_rows[0].id,expire];
-					sql = mysql.format(sql,params);
-					connection.query(sql, function(err)
+					if (data=='0'||data=='-1')	//If password is not correct
 					{
 						var response = {};
-						if (err) 
-						{
-							response.success = false;
-							response.message = err.code;
-						}
-						else
-						{	
-							response.success = true;
-							response.token = hash;
-						}
+						response.success = false;
+						response.message = 'wrong_credentials';
 						res.json(response);
-					});
-				}
-			});	
-		}		
-	});
+					}
+					else 
+					{
+						var now = new Date();
+						var hash = createToken(user,identifier);
+						var expiring = new Date();
+						expiring.setDate(now.getDate()+365);
+						var expire = utilities.mysql_date(expiring);
+						var sql = 'INSERT into Token VALUES (?,?,?)';
+						var params = [hash,user_rows[0].id,expire];
+						sql = mysql.format(sql,params);
+						connection.query(sql, function(err)
+						{
+							var response = {};
+							if (err) 
+							{
+								response.success = false;
+								response.message = err.code;
+							}
+							else
+							{	
+								response.success = true;
+								response.token = hash;
+							}
+							res.json(response);
+						});
+					}
+				});	
+			}		
+		});
+	}
 }
-
 
 //Create unique token using the user and identifier passed
 function createToken(user,identifier)
