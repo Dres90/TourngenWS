@@ -1,6 +1,6 @@
 Login Test
 
-curl -k  -X GET  -H "Accept: Application/json" -H "Content-Type: application/json" https://localhost:2800/Login/ -d '{"username":"'pedrito1035'","password":"'password'","identifier":"'f379cfcf-e8cd-4990-ad96-e1ecdfc08edb'"}' -w %{time_total}
+curl -k  -X GET  -H "Accept: Application/json" -H "Content-Type: application/json" https://localhost:2800/Login/pedrito1035 -d '{"password":"'password'","identifier":"'f379cfcf-e8cd-4990-ad96-e1ecdfc08edb'"}' -w %{time_total}
 
 
 curl -k -X POST -H "Accept: Application/json" -H "Content-Type: application/json" https://localhost:2800/Login/ -d '{"username":"'pedrito1099'","password":"'password'","email":"'falso@falso.com'","name":"'pedrito'","lastname":"'sanchez'"}' -w %{time_total}

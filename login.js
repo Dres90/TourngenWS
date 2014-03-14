@@ -23,7 +23,7 @@ If the login is incorrect, a JSON with an incorrect status is passed to the clie
 var Get = function(req, res, next) 
 {
 	var body = req.body;
-	var user = body.username;
+	var user = req.params.username;
 	var password = body.password;
 	var identifier = body.identifier;
 	
@@ -43,6 +43,7 @@ var Get = function(req, res, next)
 	}
 	else
 	{
+		body.username = user;
 		validateUser(body).then(function(response)
 		{
 			response.success = true;
@@ -129,8 +130,6 @@ function insertToken(args)
 	});
 	return deferred.promise;
 }
-
-
 //--Utilities for Get Web Service	
 function createToken(user,identifier)
 {
@@ -273,9 +272,6 @@ function insertUser(args,hash)
 	});
 	return deferred.promise;
 }
-
-
-
 //--Utilities for Post Web Service	
 function asyncCreatePass(raw)
 {

@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 
-app.get('/Login/', login.Get);
+app.get('/Login/:username', login.Get);
 app.post('/Login/', login.Post);
 
 
