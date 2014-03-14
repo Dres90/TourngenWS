@@ -18,7 +18,8 @@ app.use(express.urlencoded());
 
 
 app.get('/Login/', login.Get);
-//app.post('/Login/', login.Post);
+app.post('/Login/', login.Post);
 
 
 https.createServer(connect.certificate,app).listen(2800);
+console.log('Server started on 2800');

@@ -7,7 +7,7 @@ Andres Cardenas
 var host 		=	'localhost';
 var database 	= 	'tourngen';
 var user 		=	'root';
-var password	=	'';
+var password	=	'pass123';
 var DB_port		=	'3306';
 var key 		=	'keys/key.pem';
 var cert		=	'keys/cert.pem';
