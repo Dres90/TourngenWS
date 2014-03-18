@@ -4,3 +4,5 @@ curl -k  -X GET  -H "Accept: Application/json" -H "Content-Type: application/jso
 
 
 curl -k -X POST -H "Accept: Application/json" -H "Content-Type: application/json" https://localhost:2800/Login/ -d '{"username":"'pedrito1099'","password":"'password'","email":"'falso@falso.com'","name":"'pedrito'","lastname":"'sanchez'"}' -w %{time_total}
+
+curl -k  -X DELETE  -H "Accept: Application/json" -H "Content-Type: application/json" https://localhost:2800/Login/8PInu2gzV2Dd84v%2BAJLw6%2FFH0z7q0LCPc%2FN1%2B6kv%2F28%3D -w %{time_total}

@@ -4,7 +4,7 @@ Andres Cardenas
 28/02/2014
 */
 
-var host 		=	'localhost';
+var host 		=	'127.0.0.1';
 var database 	= 	'tourngen';
 var user 		=	'root';
 var password	=	'pass123';

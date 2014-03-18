@@ -290,6 +290,53 @@ function asyncCreatePass(raw)
 	return deferred.promise;
 }
 
+/*---Login DELETE Web Service
+Receives the token to be deleted in the url parameter
+If it receives a valid length token it returns a success status
+*/
+
+//Main function
+var Delete = function(req, res, next) 
+{
+	var token = decodeURIComponent(req.params.token);
+	
+	//Check for null inputs
+	if (validator.isNull(token))
+	{
+		var response = {};
+		response.success = false;
+		response.code = 'null_data';
+		res.json(response);
+	}
+	//Checks if token has valid length
+	else if(token.length!=44)
+	{
+		var response = {};
+		response.success = false;
+		response.code = 'invalid_token';
+		res.json(response);
+	}
+	else
+	{
+		var sql = 'DELETE FROM token WHERE token = ?';
+		var params = [token];
+		util.query(sql,params).then(function(result)
+		{
+			var response={};
+			response.success = true;
+			res.json(response);
+
+		},
+		function(err)
+		{
+			var response={};
+			response.success = false;
+			response.code = err.code;
+			res.json(response);
+		});
+	}
+}
 
 module.exports.Get = Get;
 module.exports.Post = Post;
+module.exports.Delete = Delete;

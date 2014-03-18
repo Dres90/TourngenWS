@@ -19,6 +19,7 @@ app.use(express.urlencoded());
 
 app.get('/Login/:username', login.Get);
 app.post('/Login/', login.Post);
+app.del('/Login/:token', login.Delete);
 
 
 https.createServer(connect.certificate,app).listen(2800);
