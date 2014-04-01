@@ -309,7 +309,7 @@ var Delete = function(req, res, next)
 		res.json(response);
 	}
 	//Checks if token has valid length
-	else if(token.length!=44)
+	else if(!util.tokenValid(token))
 	{
 		var response = {};
 		response.success = false;

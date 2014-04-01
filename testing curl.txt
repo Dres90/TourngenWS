@@ -1,8 +1,24 @@
 Login Test
 
-curl -k  -X GET  -H "Accept: Application/json" -H "Content-Type: application/json" https://localhost:2800/Login/pedrito1035 -d '{"password":"'password'","identifier":"'f379cfcf-e8cd-4990-ad96-e1ecdfc08edb'"}' -w %{time_total}
+curl -k  -X GET  -H "Accept: Application/json" -H "Content-Type: application/json" https://127.0.0.1:2800/Login/Andres -d '{"password":"'password'","identifier":"'f379cfcf-e8cd-4990-ad96-e1ecdfc08edb'"}' -w %{time_total}
+
+Andres
+F58WOF0/ki0Wyx+5sL2ONnTt4PxfO1bweDSPXusGtAI=
+
+AndresDigitador
+CA7hK+SVgfhfM/Nn9IvpKRHzqmciQDCRRpDB9p0++9I=
+
+AndresRepresentante
+5TU++S8q15p4+VS3bhk2GpvEUeT77YMtqQbB9+Yto8c=
+
+Fabian
+mKhhCh+Sc8v94ciNECLx9QZ/dA211wbCgdAj7edKe2o=
 
 
-curl -k -X POST -H "Accept: Application/json" -H "Content-Type: application/json" https://localhost:2800/Login/ -d '{"username":"'pedrito1099'","password":"'password'","email":"'falso@falso.com'","name":"'pedrito'","lastname":"'sanchez'"}' -w %{time_total}
+curl -k -X POST -H "Accept: Application/json" -H "Content-Type: application/json" https://127.0.0.1:2800/Login/ -d '{"username":"'pedrito1099'","password":"'password'","email":"'falso@falso.com'","name":"'pedrito'","lastname":"'sanchez'"}' -w %{time_total}
 
-curl -k  -X DELETE  -H "Accept: Application/json" -H "Content-Type: application/json" https://localhost:2800/Login/8PInu2gzV2Dd84v%2BAJLw6%2FFH0z7q0LCPc%2FN1%2B6kv%2F28%3D -w %{time_total}
+curl -k  -X DELETE  -H "Accept: Application/json" -H "Content-Type: application/json" https://127.0.0.1:2800/Login/8PInu2gzV2Dd84v%2BAJLw6%2FFH0z7q0LCPc%2FN1%2B6kv%2F28%3D -w %{time_total}
+
+curl -k  -X GET  -H "Accept: Application/json" -H "Content-Type: application/json" https://127.0.0.1:2800/Tournament/ -d '{"token":"'F58WOF0/ki0Wyx+5sL2ONnTt4PxfO1bweDSPXusGtAI='"}' -w %{time_total}
+
+curl -k  -X POST -H "Accept: Application/json" -H "Content-Type: application/json" https://127.0.0.1:2800/Tournament/ -d '{"token":"'F58WOF0/ki0Wyx+5sL2ONnTt4PxfO1bweDSPXusGtAI='","Name": "'Public T'","Date_start": "2013-01-01T10:00:00.000Z","date_end": null,"Home_and_away": 0,"Info": "","Last_updated": "2014-03-19T23:52:36.000Z","Status": 1,"isPublic": 1, "Teams":[{"Name":"'Equipo A'", "ID":1},{"Name":"'Equipo B'", "ID":2},{"Name":"'Equipo C'", "ID":3}],"Matches":[[{"Home":1,"Away":2,"Score_Home":0, "Score_Away":2,"Played":1}],[{"Home":2,"Away":3,"Score_Home":2, "Score_Away":2, "Played":1}],[{"Home":1,"Away":3,"Score_Home":1, "Score_Away":0, "Played":0}]]}' -w %{time_total}

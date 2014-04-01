@@ -9,6 +9,7 @@ Andres Cardenas
 var express = require('express');
 var https = require('https');
 var login = require('./login.js');
+var tournament = require('./tournament.js');
 var connect = require('./connect.js');
 
 //Initial configuration for Express
@@ -20,6 +21,9 @@ app.use(express.urlencoded());
 app.get('/Login/:username', login.Get);
 app.post('/Login/', login.Post);
 app.del('/Login/:token', login.Delete);
+
+app.get('/Tournament/', tournament.GetAll);
+app.post('/Tournament/', tournament.Post);
 
 
 https.createServer(connect.certificate,app).listen(2800);
