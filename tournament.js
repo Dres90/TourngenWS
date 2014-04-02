@@ -153,11 +153,27 @@ function insertTournament(user,b)
 	var now = new Date();
 	var sqlnow = util.mysql_date(now);
 	var sql = 'INSERT into tournament VALUES (null,?,?,?,?,?,?,1,?);';
-	var params = [b.name,b.date_start,b.date_end,b.home_and_away,b.info,sqlnow,b.isPublic];
+	var params = [b.name,b.date_start,b.date_end,b.home_and_away,b.info,sqlnow,b.is_public];
 	util.query(sql,params).then(function(result)
 	{
-		var response = {}
-		deferred.resolve(result);	
+		var ids = {}
+		ids.tournament = result[0].insertId;
+		deferred.resolve(insertRights(user,b,ids));	
+	}, function(err)
+	{
+		deferred.reject(err);
+	}
+	);
+	return deferred.promise;
+}
+function insertRights(user,b,ids)
+{
+	var deferred = Q.defer();
+	var sql = 'INSERT into tournament_rights VALUES (?,?,1);';
+	var params = [ids.tournament,user];
+	util.query(sql,params).then(function(result)
+	{
+		deferred.resolve(insertTeams(b,ids));	
 	}, function(err)
 	{
 		deferred.reject(err);
@@ -166,5 +182,46 @@ function insertTournament(user,b)
 	return deferred.promise;
 }
 
+function insertTeams(b,ids)
+{
+	
+	var deferred = Q.defer();
+	var now = new Date();
+	var sqlnow = util.mysql_date(now);
+	var sql = 'INSERT into team VALUES ?;';
+	var params = [];
+	for (var i = 0; i < b.teams.length; i++) 
+	{
+		var team = [];
+		team[0] = null;
+		team[1] = ids.tournament;
+		team[2] = b.teams[i].name;
+		team[3] = b.teams[i].email;
+		team[4] = b.teams[i].info;
+		team[5] = sqlnow;
+		team[6] = 1;
+		params[i]=team;
+	}
+	util.bulkQuery(sql,params).then(function(result)
+	{
+		var insertID = result[0].insertId;
+		for (var j = 0; j < b.teams.length; j++) 
+		{
+			dict.add(b.teams[j].localID,insertID);
+			insertID++;
+		}
+		ids.teams = dict;
+		deferred.resolve(insertFixtures(b,ids));	
+	}, function(err)
+	{
+		deferred.reject(err);
+	}
+	);
+	return deferred.promise;
+}
+function insertFixtures(b,ids)
+{
+	
+}
 module.exports.GetAll = GetAll;
 module.exports.Post = Post;
