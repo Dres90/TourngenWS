@@ -212,4 +212,4 @@ module.exports.query = queryDB;
 module.exports.bulkQuery = bulkQueryDB;
 module.exports.tokenValid = tokenValid;
 module.exports.getUserID = getUserID;
-module.exports.dictionary = JSdict;
+module.exports.JSdict = JSdict;

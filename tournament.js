@@ -184,7 +184,6 @@ function insertRights(user,b,ids)
 
 function insertTeams(b,ids)
 {
-	
 	var deferred = Q.defer();
 	var now = new Date();
 	var sqlnow = util.mysql_date(now);
@@ -204,10 +203,11 @@ function insertTeams(b,ids)
 	}
 	util.bulkQuery(sql,params).then(function(result)
 	{
+		var dict = new util.JSdict();
 		var insertID = result[0].insertId;
 		for (var j = 0; j < b.teams.length; j++) 
 		{
-			dict.add(b.teams[j].localID,insertID);
+			dict.add(b.teams[j].id,insertID);
 			insertID++;
 		}
 		ids.teams = dict;
@@ -221,7 +221,92 @@ function insertTeams(b,ids)
 }
 function insertFixtures(b,ids)
 {
-	
+	var deferred = Q.defer();
+
+	var now = new Date();
+	var sqlnow = util.mysql_date(now);
+	var sql = 'INSERT into fixture VALUES ?;';
+	var params = [];
+	for (var i = 0; i < b.fixtures.length; i++) 
+	{
+		var fixture = [];
+		fixture[0] = null;
+		fixture[1] = ids.tournament;
+		fixture[2] = b.fixtures[i].number;
+		fixture[3] = b.fixtures[i].info;
+		fixture[4] = sqlnow;
+		fixture[5] = 1;
+		params[i]=fixture;
+	}
+	util.bulkQuery(sql,params).then(function(result)
+	{
+		var dict = new util.JSdict();
+		var insertID = result[0].insertId;
+		for (var j = 0; j < b.fixtures.length; j++) 
+		{
+			dict.add(b.fixtures[j].id,insertID);
+			insertID++;
+		}
+		ids.fixtures = dict;
+		deferred.resolve(insertMatches(b,ids));	
+	}, function(err)
+	{
+		deferred.reject(err);
+	}
+	);
+	return deferred.promise;
 }
+
+function insertMatches(b,ids) //Error en esta funcion
+{
+	var deferred = Q.defer();
+	var now = new Date();
+	var sqlnow = util.mysql_date(now);
+	var sql = 'INSERT into match VALUES ?;';
+	var params = [];
+	for (var i = 0; i < b.fixtures.length; i++) 
+	{
+		var fixture = b.fixtures[i];
+		
+		for (var j = 0; i < fixture.matches.length; j++) 
+		{
+			var match = [];
+			match[0] = null;
+			match[1] = ids.fixtures.getVal(fixture.id);
+			match[2] = ids.teams.getVal(fixture.matches[j].home);
+			match[3] = ids.teams.getVal(fixture.matches[j].away);
+			match[4] = fixture.matches[j].date;
+			match[5] = fixture.matches[j].info;
+			match[6] = sqlnow;
+			match[7] = 1;
+			match[8] = fixture.matches[j].score_home;
+			match[9] = fixture.matches[j].score_away;
+			match[10] = fixture.matches[j].played;
+			params[i]=match;
+		}
+	}
+	util.bulkQuery(sql,params).then(function(result)
+	{
+		var dict = new util.JSdict();
+		var insertID = result[0].insertId;
+		for (var i = 0; i < b.fixtures.length; i++) 
+		{
+			var fixture = b.fixtures[i];
+			for (var j = 0; i < fixture.matches.length; j++) 
+			{
+				dict.add(fixture.matches[j].id,insertID);
+				insertID++;
+			}
+			ids.matches = dict;
+			deferred.resolve(ids);	
+		}
+	}, function(err)
+	{
+		deferred.reject(err);
+	}
+	);
+	return deferred.promise;
+}
+
 module.exports.GetAll = GetAll;
 module.exports.Post = Post;
