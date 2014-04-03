@@ -24,7 +24,9 @@ app.del('/Login/:token', login.Delete);
 
 app.get('/Tournament/', tournament.GetAll);
 app.post('/Tournament/', tournament.Post);
-
+app.get('/Tournament/:id', tournament.Get);
+app.put('/Tournament/:id', tournament.Put);
+app.post('/Tournament/:id', tournament.Sync);
 
 https.createServer(connect.certificate,app).listen(2800);
 console.log('Server started on 2800');

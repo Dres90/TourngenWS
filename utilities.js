@@ -76,11 +76,12 @@ var getUserID = function(token)
 	return deferred.promise;
 }
 
-var get_permission = function(user,tournament)
+
+var get_permission = function(tournament,user)
 {
 	var deferred = Q.defer();
-	var sql = 'SELECT Privilege_id from tournament_rights WHERE Tournament_id = ? AND User_id =	 ?';
-	var params = [tournament,user];
+	var sql = 'SELECT distinct T.Tournament_id, IF(user_id = ?,G.Privilege_id,5) as privilege_id FROM tournament as T LEFT JOIN tournament_rights as G on T.tournament_id = G.tournament_id where (user_id = ? or (user_id <> ? AND public = true AND G.Tournament_id not in (select T.Tournament_id FROM tournament as T LEFT JOIN tournament_rights as G on T.tournament_id = G.tournament_id where user_id = ?))) AND T.tournament_id = ? order by privilege_id;'
+	var params = [user,user,user,user,tournament];
 	queryDB(sql,params).then(function(result)
 	{
 		if (result[0].length<1)
@@ -89,7 +90,7 @@ var get_permission = function(user,tournament)
 		}
 		else
 		{	
-			deferred.resolve(result[0][0].Privilege_id);
+			deferred.resolve(result[0][0].privilege_id);
 		}
 	}, function(err)
 	{
@@ -206,7 +207,7 @@ if (!JSdict.prototype.remove) {
         }
     }
 }
-
+module.exports.get_permission = get_permission;
 module.exports.mysql_date = mysql_date;
 module.exports.query = queryDB;
 module.exports.bulkQuery = bulkQueryDB;
