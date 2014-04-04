@@ -5,9 +5,9 @@ Andres Cardenas
 */
 
 var host 		=	'127.0.0.1';
-var database 	= 	'tourngen';
+var database 	= 	'tgDEV';
 var user 		=	'root';
-var password	=	'pass123';
+var password	=	'PokemonDigimon';
 var DB_port		=	'3306';
 var key 		=	'keys/key.pem';
 var cert		=	'keys/cert.pem';
