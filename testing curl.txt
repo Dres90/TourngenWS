@@ -30,3 +30,9 @@ curl -k  -X PUT  -H "Accept: Application/json" -H "Content-Type: application/jso
 curl -k  -X POST  -H "Accept: Application/json" -H "Content-Type: application/json" https://127.0.0.1:2800/Tournament/63 -d '{"token":"'F58WOF0/ki0Wyx+5sL2ONnTt4PxfO1bweDSPXusGtAI='","tournament":{"updated":"2014-04-03 18:53:20","teams":[{"id":144, "updated":"2014-04-03 18:53:20"},{"id":145, "updated":"2014-04-03 18:53:19"},{"id":146, "updated":"2014-04-03 18:53:21"}], "fixtures":[{"id":135, "updated":"2014-04-03 18:53:20"},{"id":136, "updated":"2014-04-03 18:53:19"},{"id":137, "updated":"2014-04-03 18:53:21"}], "matches":[{"id":66, "updated":"2014-04-03 18:53:20"},{"id":67, "updated":"2014-04-03 18:53:19"},{"id":68, "updated":"2014-04-03 18:53:21"}]}}' -w %{time_total}
 
 curl -k  -X GET  -H "Accept: Application/json" -H "Content-Type: application/json" https://127.0.0.1:2800/Team/ -d '{"token":"'F58WOF0/ki0Wyx+5sL2ONnTt4PxfO1bweDSPXusGtAI='","tournament":63}' -w %{time_total}
+
+curl -k  -X GET  -H "Accept: Application/json" -H "Content-Type: application/json" https://127.0.0.1:2800/Team/144 -d '{"token":"'F58WOF0/ki0Wyx+5sL2ONnTt4PxfO1bweDSPXusGtAI='"}' -w %{time_total}
+
+curl -k  -X GET  -H "Accept: Application/json" -H "Content-Type: application/json" https://127.0.0.1:2800/Fixture/ -d '{"token":"'F58WOF0/ki0Wyx+5sL2ONnTt4PxfO1bweDSPXusGtAI='","tournament":63}' -w %{time_total}
+
+curl -k  -X GET  -H "Accept: Application/json" -H "Content-Type: application/json" https://127.0.0.1:2800/Fixture/135 -d '{"token":"'F58WOF0/ki0Wyx+5sL2ONnTt4PxfO1bweDSPXusGtAI='"}' -w %{time_total}

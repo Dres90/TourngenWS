@@ -1,5 +1,5 @@
 /*
-Web Service for Team querying
+Web Service for fixture querying
 Requires NodeJS, Mysql and Express modules
 Andres Cardenas
 28/02/2014
@@ -10,9 +10,9 @@ var util = require ('./utilities.js');
 var validator = require('validator');
 var Q = require('Q');
 
-/*---Team GET All Web Service
+/*---Fixture GET All Web Service
 Receives a JSON with the token identifying the client and a tournament id
-Returns a JSON with the teams in the tournament
+Returns a JSON with the fixtures in the tournament
 */
 
 //Main function
@@ -79,7 +79,7 @@ function getPermission(user,tournament)
 		}
 		else
 		{
-			deferred.resolve(getTeams(tournament));
+			deferred.resolve(getFixtures(tournament));
 		}
 	}, function(err)
 	{
@@ -88,24 +88,24 @@ function getPermission(user,tournament)
 	);
 	return deferred.promise;
 }
-//Gets team list
-function getTeams(tournament)
+//Gets fixture list
+function getFixtures(tournament)
 {
 	var deferred = Q.defer();
-	var sql = 'SELECT * from team where tournament_id=?;';
+	var sql = 'SELECT * from fixture where tournament_id=?;';
 	var params = [tournament];
 	util.query(sql,params).then(function(result)
 	{
 		if (result[0].length<1)
 		{
 			var response = {};
-			response.code = 'no_teams';
+			response.code = 'no_fixtures';
 			deferred.reject(response);
 		}
 		else
 		{	
 			var response = {}
-			response.teams=result[0];
+			response.fixtures=result[0];
 			deferred.resolve(response);
 		}
 		
@@ -117,10 +117,10 @@ function getTeams(tournament)
 	return deferred.promise;
 }
 
-/*---Team GET Web Service
+/*---Fixture GET Web Service
 Receives a JSON with the token identifying the client
-And the team id as a url parameter
-Returns a JSON describing the team
+And the fixture id as a url parameter
+Returns a JSON describing the fixture
 */	
 //Main function
 var Get = function(req, res, next) 
@@ -159,12 +159,12 @@ var Get = function(req, res, next)
 	}
 }
 //Gets user id from token
-function getUserIDget(team,token)
+function getUserIDget(fixture,token)
 {
 	var deferred = Q.defer();
 	util.getUserID(token).then(function(result)
 	{
-		deferred.resolve(getTournamentID(result,team));
+		deferred.resolve(getTournamentID(result,fixture));
 	}, function(err)
 	{
 		defferred.reject(err);
@@ -173,22 +173,22 @@ function getUserIDget(team,token)
 	return deferred.promise;
 }
 
-function getTournamentID(user,teamID)
+function getTournamentID(user,fixtureID)
 {
 	var deferred = Q.defer();
-	var sql = 'SELECT * from team where team_id=?';
-	var params = [teamID];
+	var sql = 'SELECT * from fixture where fixture_id=?';
+	var params = [fixtureID];
 	util.query(sql,params).then(function(result)
 	{
 		if (result[0].length<1)
 		{
 			var response = {};
-			response.code = 'no_team';
+			response.code = 'no_fixture';
 			deferred.reject(response);
 		}
 		else
 		{	
-			deferred.resolve(getTeam(result[0][0],user));
+			deferred.resolve(getFixture(result[0][0],user));
 		}
 	}, function(err)
 	{
@@ -198,15 +198,15 @@ function getTournamentID(user,teamID)
 	return deferred.promise;
 }
 
-//Gets team while validating permission
-function getTeam(team,user)
+//Gets fixture while validating permission
+function getFixture(fixture,user)
 {
 	var deferred = Q.defer();
-	util.get_permission(team.Tournament_id,user).then(function(result)
+	util.get_permission(fixture.Tournament_id,user).then(function(result)
 	{
 		if (result!=0)
 		{
-			deferred.resolve(team);
+			deferred.resolve(fixture);
 		}
 		else
 		{

@@ -1,5 +1,5 @@
 /*
-Web Service for Team querying
+Web Service for match querying
 Requires NodeJS, Mysql and Express modules
 Andres Cardenas
 28/02/2014
@@ -10,9 +10,9 @@ var util = require ('./utilities.js');
 var validator = require('validator');
 var Q = require('Q');
 
-/*---Team GET All Web Service
+/*---match GET All Web Service
 Receives a JSON with the token identifying the client and a tournament id
-Returns a JSON with the teams in the tournament
+Returns a JSON with the matches in the tournament
 */
 
 //Main function
@@ -79,7 +79,7 @@ function getPermission(user,tournament)
 		}
 		else
 		{
-			deferred.resolve(getTeams(tournament));
+			deferred.resolve(getmatches(tournament));
 		}
 	}, function(err)
 	{
@@ -88,24 +88,24 @@ function getPermission(user,tournament)
 	);
 	return deferred.promise;
 }
-//Gets team list
-function getTeams(tournament)
+//Gets match list
+function getmatches(tournament)
 {
 	var deferred = Q.defer();
-	var sql = 'SELECT * from team where tournament_id=?;';
+	var sql = 'SELECT * from match where tournament_id=?;';
 	var params = [tournament];
 	util.query(sql,params).then(function(result)
 	{
 		if (result[0].length<1)
 		{
 			var response = {};
-			response.code = 'no_teams';
+			response.code = 'no_matches';
 			deferred.reject(response);
 		}
 		else
 		{	
 			var response = {}
-			response.teams=result[0];
+			response.matches=result[0];
 			deferred.resolve(response);
 		}
 		
@@ -117,10 +117,10 @@ function getTeams(tournament)
 	return deferred.promise;
 }
 
-/*---Team GET Web Service
+/*---match GET Web Service
 Receives a JSON with the token identifying the client
-And the team id as a url parameter
-Returns a JSON describing the team
+And the match id as a url parameter
+Returns a JSON describing the match
 */	
 //Main function
 var Get = function(req, res, next) 
@@ -159,12 +159,12 @@ var Get = function(req, res, next)
 	}
 }
 //Gets user id from token
-function getUserIDget(team,token)
+function getUserIDget(match,token)
 {
 	var deferred = Q.defer();
 	util.getUserID(token).then(function(result)
 	{
-		deferred.resolve(getTournamentID(result,team));
+		deferred.resolve(getTournamentID(result,match));
 	}, function(err)
 	{
 		defferred.reject(err);
@@ -173,22 +173,22 @@ function getUserIDget(team,token)
 	return deferred.promise;
 }
 
-function getTournamentID(user,teamID)
+function getTournamentID(user,matchID)
 {
 	var deferred = Q.defer();
-	var sql = 'SELECT * from team where team_id=?';
-	var params = [teamID];
+	var sql = 'SELECT * from match where match_id=?';
+	var params = [matchID];
 	util.query(sql,params).then(function(result)
 	{
 		if (result[0].length<1)
 		{
 			var response = {};
-			response.code = 'no_team';
+			response.code = 'no_match';
 			deferred.reject(response);
 		}
 		else
 		{	
-			deferred.resolve(getTeam(result[0][0],user));
+			deferred.resolve(getmatch(result[0][0],user));
 		}
 	}, function(err)
 	{
@@ -198,15 +198,15 @@ function getTournamentID(user,teamID)
 	return deferred.promise;
 }
 
-//Gets team while validating permission
-function getTeam(team,user)
+//Gets match while validating permission
+function getmatch(match,user)
 {
 	var deferred = Q.defer();
-	util.get_permission(team.Tournament_id,user).then(function(result)
+	util.get_permission(match.Tournament_id,user).then(function(result)
 	{
 		if (result!=0)
 		{
-			deferred.resolve(team);
+			deferred.resolve(match);
 		}
 		else
 		{
