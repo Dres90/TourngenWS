@@ -8,7 +8,7 @@ Andres Cardenas
 //Import necessary modules
 var util = require ('./utilities.js');
 var validator = require('validator');
-var Q = require('Q');
+var Q = require('q');
 
 /*---Match GET All Web Service
 Receives a JSON with the token identifying the client and a tournament id

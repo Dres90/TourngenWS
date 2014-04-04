@@ -6,7 +6,7 @@ Andres Cardenas
 
 var mysql  = require('mysql');
 var connect = require ('./connect.js');
-var Q = require('Q');
+var Q = require('q');
 
 //Create connection to mysql database
 var connection = mysql.createConnection(
