@@ -12,6 +12,7 @@ var login = require('./login.js');
 var tournament = require('./tournament.js');
 var team = require('./team.js');
 var fixture = require('./fixture.js');
+var match = require('./match.js');
 var connect = require('./connect.js');
 
 //Initial configuration for Express
@@ -35,6 +36,10 @@ app.get('/Team/:id', team.Get);
 
 app.get('/Fixture/', fixture.GetAll);
 app.get('/Fixture/:id', fixture.Get);
+
+app.get('/Match/', match.GetAll);
+app.get('/Match/:id', match.Get);
+app.put('/Match/:id', match.Put);
 
 https.createServer(connect.certificate,app).listen(2800);
 console.log('Server started on 2800');

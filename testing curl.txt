@@ -36,3 +36,9 @@ curl -k  -X GET  -H "Accept: Application/json" -H "Content-Type: application/jso
 curl -k  -X GET  -H "Accept: Application/json" -H "Content-Type: application/json" https://127.0.0.1:2800/Fixture/ -d '{"token":"'F58WOF0/ki0Wyx+5sL2ONnTt4PxfO1bweDSPXusGtAI='","tournament":63}' -w %{time_total}
 
 curl -k  -X GET  -H "Accept: Application/json" -H "Content-Type: application/json" https://127.0.0.1:2800/Fixture/135 -d '{"token":"'F58WOF0/ki0Wyx+5sL2ONnTt4PxfO1bweDSPXusGtAI='"}' -w %{time_total}
+
+curl -k  -X GET  -H "Accept: Application/json" -H "Content-Type: application/json" https://127.0.0.1:2800/Match/ -d '{"token":"'F58WOF0/ki0Wyx+5sL2ONnTt4PxfO1bweDSPXusGtAI='","tournament":63}' -w %{time_total}
+
+curl -k  -X GET  -H "Accept: Application/json" -H "Content-Type: application/json" https://127.0.0.1:2800/Match/67 -d '{"token":"'F58WOF0/ki0Wyx+5sL2ONnTt4PxfO1bweDSPXusGtAI='"}' -w %{time_total}
+
+curl -k  -X PUT  -H "Accept: Application/json" -H "Content-Type: application/json" https://127.0.0.1:2800/Match/67 -d '{"token":"'F58WOF0/ki0Wyx+5sL2ONnTt4PxfO1bweDSPXusGtAI='","match":{"score_home":1}}' -w %{time_total}
