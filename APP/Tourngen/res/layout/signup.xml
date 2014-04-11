@@ -6,7 +6,7 @@
     android:columnCount="1" >
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/signup_user"
         android:layout_column="0"
         android:layout_gravity="center_horizontal|top"
         android:layout_row="0"
@@ -17,7 +17,7 @@
     </EditText>
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/signup_pass"
         android:layout_column="0"
         android:layout_gravity="center_horizontal|top"
         android:layout_row="1"
@@ -26,7 +26,7 @@
         android:inputType="textPassword" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/signup_name"
         android:layout_column="0"
         android:layout_gravity="center_horizontal|top"
         android:layout_row="2"
@@ -35,7 +35,7 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/signup_lastname"
         android:layout_column="0"
         android:layout_gravity="center_horizontal|top"
         android:layout_row="3"
@@ -44,7 +44,7 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/editText5"
+        android:id="@+id/signup_email"
         android:layout_column="0"
         android:layout_gravity="center_horizontal|top"
         android:layout_row="4"
@@ -57,20 +57,14 @@
         android:layout_gravity="top|center_horizontal"
         android:layout_row="5" >
 
-        <Button
-            android:id="@+id/cancel_signup"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@android:string/cancel" />
-
-        <Button
-            android:id="@+id/confirm_signup"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sign_up" />
-
     </LinearLayout>
+
+    <Button
+        android:id="@+id/signup_signup"
+        android:layout_column="0"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_row="5"
+        android:onClick="register"
+        android:text="@string/register" />
 
 </GridLayout>
