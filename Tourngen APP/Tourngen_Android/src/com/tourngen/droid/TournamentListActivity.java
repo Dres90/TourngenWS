@@ -3,9 +3,7 @@ package com.tourngen.droid;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,12 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
-public class MainActivity extends Activity {
+public class TournamentListActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.tournament_list);
 
     }
 
@@ -43,10 +41,9 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
     
-    public void login(View view)
+    public void logout(View view)
     {
-        Intent login = new Intent(getApplicationContext(),TournamentListActivity.class);
-        startActivity(login);
+    	//TODO Implement log out logic
+    	finish();
     }
-
 }
