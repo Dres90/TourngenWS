@@ -1,4 +1,0 @@
-INDEX VERSION 1.126+C:\Dres\tourngen\APP\.metadata\.plugins\org.eclipse.jdt.core
-585221641.index
-2246817442.index
-111354502.index
