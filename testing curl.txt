@@ -1,6 +1,6 @@
 Login Test
 
-curl -k -X GET -H "Accept: Application/json" 'https://127.0.0.1:2800/Login/Andres?password=password&identifier=f379cfcf-e8cd-4990-ad96-e1ecdfc08edb' -w %{time_total}
+curl -k -X GET -H "Accept: Application/json" 'https://tourngen.com:2800/Login/Andres?password=password&identifier=f379cfcf-e8cd-4990-ad96-e1ecdfc08edb' -w %{time_total}
 
 
 Andres

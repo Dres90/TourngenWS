@@ -26,7 +26,7 @@ connection.connect(function(err)
 function queryDB(sql,args)
 {
 	sql = mysql.format(sql,args);
-	//console.log(sql);
+	console.log(sql);
 	var defered = Q.defer();
 	connection.query(sql,defered.makeNodeResolver());
 	return defered.promise;
