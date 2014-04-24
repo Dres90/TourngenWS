@@ -117,7 +117,7 @@ function insertToken(args)
 	var expiring = new Date();
 	expiring.setDate(now.getDate()+365);
 	var expire = util.mysql_date(expiring);
-	var sql = 'INSERT into Token VALUES (?,?,?)';
+	var sql = 'INSERT into token VALUES (?,?,?)';
 	var params = [hash,args.userid,expire];
 	util.query(sql,params).then(function(result)
 	{
