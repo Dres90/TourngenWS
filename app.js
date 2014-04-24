@@ -14,12 +14,14 @@ var team = require('./team.js');
 var fixture = require('./fixture.js');
 var match = require('./match.js');
 var connect = require('./connect.js');
+var bodyParser = require('body-parser');
 
 //Initial configuration for Express
 var app = express();
-app.use(express.json());
-app.use(express.urlencoded());
+app.use(bodyParser());
 
+app.get('/',function(req,res,next)
+{res.send("Tourngen Web Services, contact acardenas90@gmail.com")});
 
 app.get('/Login/:username', login.Get);
 app.post('/Login/', login.Post);
