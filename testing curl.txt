@@ -16,34 +16,34 @@ Fabian
 mKhhCh+Sc8v94ciNECLx9QZ/dA211wbCgdAj7edKe2o=
 
 
-Token url encode yjXCYrvUTpOsM2f5Rcx/cQD5klOtcLcT5w1HrFl0GF4=
+Token url encode XQEFVgYriRPhrLr44oVf5zIRkbSGocj4upmugEiAX6k%3D
 yjXCYrvUTpOsM2f5Rcx%2FcQD5klOtcLcT5w1HrFl0GF4%3D
 
 
-curl -k -X POST -H "Accept: Application/json" -H "Content-Type: application/json" https://tourngen.com:2800/Login/ -d '{"username":"'Andres'","password":"'password'","email":"'falso@falso.com'","name":"'pedrito'","lastname":"'sanchez'"}' -w %{time_total}
+curl -k -X POST -H "Accept: Application/json" -H "Content-Type: application/json" https://tourngen.com:2800/Login/ -d '{"username":"'Andres56'","password":"'password'","email":"'falso@falso.com'","name":"'pedrito'","lastname":"'sanchez'"}' -w %{time_total}
 
 curl -k  -X DELETE  -H "Accept: Application/json" -H "Content-Type: application/json" https://tourngen.com:2800/Login/8PInu2gzV2Dd84v%2BAJLw6%2FFH0z7q0LCPc%2FN1%2B6kv%2F28%3D -w %{time_total}
 
-curl -k  -X GET -H "Content-Type: application/json" 'https://tourngen.com:2800/Tournament/?token=yjXCYrvUTpOsM2f5Rcx%2FcQD5klOtcLcT5w1HrFl0GF4%3D' -w %{time_total}
+curl -k  -X GET -H "Content-Type: application/json" 'https://tourngen.com:2800/Tournament/?token=XQEFVgYriRPhrLr44oVf5zIRkbSGocj4upmugEiAX6k%3D' -w %{time_total}
 
-curl -k  -X POST -H "Accept: Application/json" -H "Content-Type: application/json" https://tourngen.com:2800/Tournament/ -d '{"token":"F58WOF0/ki0Wyx+5sL2ONnTt4PxfO1bweDSPXusGtAI=","name": "Public T","date_start": "2014-04-01","home_and_away": 0,"is_public": 1,"teams":[{"name":"Equipo A", "id":9},{"name":"Equipo B", "id":1},{"name":"Equipo C", "id":0}],"fixtures":[{"id":7,"number":1,"matches":[{"id":6,"home":9,"away":1,"score_home":0, "score_away":2,"played":1}]},{"id":8,"number":2,"matches":[{"id":7,"home":1,"away":0,"score_home":2, "score_away":2, "played":1}]},{"id":9,"number":3,"matches":[{"id":8,"home":9,"away":0,"score_home":1, "score_away":0, "played":0}]}]}' -w %{time_total}
+curl -k  -X POST -H "Accept: Application/json" -H "Content-Type: application/json" https://tourngen.com:2800/Tournament/ -d '{"token":"XQEFVgYriRPhrLr44oVf5zIRkbSGocj4upmugEiAX6k=","name": "Public T","date_start": "2014-04-01","home_and_away": 0,"is_public": 1,"teams":[{"name":"Equipo A", "id":9},{"name":"Equipo B", "id":1},{"name":"Equipo C", "id":0}],"fixtures":[{"id":7,"number":1,"matches":[{"id":6,"home":9,"away":1,"score_home":0, "score_away":2,"played":1}]},{"id":8,"number":2,"matches":[{"id":7,"home":1,"away":0,"score_home":2, "score_away":2, "played":1}]},{"id":9,"number":3,"matches":[{"id":8,"home":9,"away":0,"score_home":1, "score_away":0, "played":0}]}]}' -w %{time_total}
 
-curl -k  -X GET  -H "Accept: Application/json" 'https://tourngen.com:2800/Tournament/4?token=yjXCYrvUTpOsM2f5Rcx%2FcQD5klOtcLcT5w1HrFl0GF4%3D' -w %{time_total}
+curl -k  -X GET  -H "Accept: Application/json" 'https://tourngen.com:2800/Tournament/4?token=XQEFVgYriRPhrLr44oVf5zIRkbSGocj4upmugEiAX6k%3D' -w %{time_total}
 
-curl -k  -X PUT  -H "Accept: Application/json" -H "Content-Type: application/json" https://tourngen.com:2800/Tournament/4 -d '{"token":"'F58WOF0/ki0Wyx+5sL2ONnTt4PxfO1bweDSPXusGtAI='","tournament":{"name": "Public T","date_start": "2014-04-01","home_and_away": 0,"is_public": 1}}' -w %{time_total}
+curl -k  -X PUT  -H "Accept: Application/json" -H "Content-Type: application/json" https://tourngen.com:2800/Tournament/4 -d '{"token":"'XQEFVgYriRPhrLr44oVf5zIRkbSGocj4upmugEiAX6k='","tournament":{"name": "Public T","date_start": "2014-04-01","home_and_away": 0,"is_public": 1}}' -w %{time_total}
 
-curl -k  -X POST  -H "Accept: Application/json" -H "Content-Type: application/json" https://tourngen.com:2800/Tournament/63 -d '{"token":"'F58WOF0/ki0Wyx+5sL2ONnTt4PxfO1bweDSPXusGtAI='","tournament":{"updated":"2014-04-03 18:53:20","teams":[{"id":144, "updated":"2014-04-03 18:53:20"},{"id":145, "updated":"2014-04-03 18:53:19"},{"id":146, "updated":"2014-04-03 18:53:21"}], "fixtures":[{"id":135, "updated":"2014-04-03 18:53:20"},{"id":136, "updated":"2014-04-03 18:53:19"},{"id":137, "updated":"2014-04-03 18:53:21"}], "matches":[{"id":66, "updated":"2014-04-03 18:53:20"},{"id":67, "updated":"2014-04-03 18:53:19"},{"id":68, "updated":"2014-04-03 18:53:21"}]}}' -w %{time_total}
+curl -k  -X POST  -H "Accept: Application/json" -H "Content-Type: application/json" https://tourngen.com:2800/Tournament/63 -d '{"token":"'XQEFVgYriRPhrLr44oVf5zIRkbSGocj4upmugEiAX6k='","tournament":{"updated":"2014-04-03 18:53:20","teams":[{"id":144, "updated":"2014-04-03 18:53:20"},{"id":145, "updated":"2014-04-03 18:53:19"},{"id":146, "updated":"2014-04-03 18:53:21"}], "fixtures":[{"id":135, "updated":"2014-04-03 18:53:20"},{"id":136, "updated":"2014-04-03 18:53:19"},{"id":137, "updated":"2014-04-03 18:53:21"}], "matches":[{"id":66, "updated":"2014-04-03 18:53:20"},{"id":67, "updated":"2014-04-03 18:53:19"},{"id":68, "updated":"2014-04-03 18:53:21"}]}}' -w %{time_total}
 
-curl -k -X GET -H "Accept: Application/json" 'https://tourngen.com:2800/Team/?token=yjXCYrvUTpOsM2f5Rcx%2FcQD5klOtcLcT5w1HrFl0GF4%3D&tournament=63' -w %{time_total}
+curl -k -X GET -H "Accept: Application/json" 'https://tourngen.com:2800/Team/?token=XQEFVgYriRPhrLr44oVf5zIRkbSGocj4upmugEiAX6k%3D&tournament=63' -w %{time_total}
 
-curl -k  -X GET  -H "Accept: Application/json" 'https://tourngen.com:2800/Team/144?token=yjXCYrvUTpOsM2f5Rcx%2FcQD5klOtcLcT5w1HrFl0GF4%3D' -w %{time_total}
+curl -k  -X GET  -H "Accept: Application/json" 'https://tourngen.com:2800/Team/144?token=XQEFVgYriRPhrLr44oVf5zIRkbSGocj4upmugEiAX6k%3D' -w %{time_total}
 
-curl -k  -X GET  -H "Accept: Application/json" 'https://tourngen.com:2800/Fixture/?token=yjXCYrvUTpOsM2f5Rcx%2FcQD5klOtcLcT5w1HrFl0GF4%3D&tournament=63' -w %{time_total}
+curl -k  -X GET  -H "Accept: Application/json" 'https://tourngen.com:2800/Fixture/?token=XQEFVgYriRPhrLr44oVf5zIRkbSGocj4upmugEiAX6k%3D&tournament=63' -w %{time_total}
 
-curl -k  -X GET  -H "Accept: Application/json" 'https://tourngen.com:2800/Fixture/135?token=yjXCYrvUTpOsM2f5Rcx%2FcQD5klOtcLcT5w1HrFl0GF4%3D' -w %{time_total}
+curl -k  -X GET  -H "Accept: Application/json" 'https://tourngen.com:2800/Fixture/135?token=XQEFVgYriRPhrLr44oVf5zIRkbSGocj4upmugEiAX6k%3D' -w %{time_total}
 
-curl -k  -X GET  -H "Accept: Application/json" 'https://tourngen.com:2800/Match/?token=yjXCYrvUTpOsM2f5Rcx%2FcQD5klOtcLcT5w1HrFl0GF4%3D&tournament=63' -w %{time_total}
+curl -k  -X GET  -H "Accept: Application/json" 'https://tourngen.com:2800/Match/?token=XQEFVgYriRPhrLr44oVf5zIRkbSGocj4upmugEiAX6k%3D&tournament=63' -w %{time_total}
 
-curl -k  -X GET  -H "Accept: Application/json" 'https://tourngen.com:2800/Match/67?token=yjXCYrvUTpOsM2f5Rcx%2FcQD5klOtcLcT5w1HrFl0GF4%3D' -w %{time_total}
+curl -k  -X GET  -H "Accept: Application/json" 'https://tourngen.com:2800/Match/67?token=XQEFVgYriRPhrLr44oVf5zIRkbSGocj4upmugEiAX6k%3D' -w %{time_total}
 
-curl -k  -X PUT  -H "Accept: Application/json" -H "Content-Type: application/json" https://tourngen.com:2800/Match/67 -d '{"token":"'F58WOF0/ki0Wyx+5sL2ONnTt4PxfO1bweDSPXusGtAI='","match":{"score_home":1}}' -w %{time_total}
+curl -k  -X PUT  -H "Accept: Application/json" -H "Content-Type: application/json" https://tourngen.com:2800/Match/67 -d '{"token":"'XQEFVgYriRPhrLr44oVf5zIRkbSGocj4upmugEiAX6k='","match":{"score_home":1}}' -w %{time_total}
