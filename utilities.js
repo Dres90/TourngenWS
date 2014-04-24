@@ -25,8 +25,8 @@ connection.connect(function(err)
 
 function queryDB(sql,args)
 {
+	sql.toLowerCase();
 	sql = mysql.format(sql,args);
-	console.log(sql);
 	var defered = Q.defer();
 	connection.query(sql,defered.makeNodeResolver());
 	return defered.promise;
@@ -34,6 +34,7 @@ function queryDB(sql,args)
 
 function bulkQueryDB(sql,args)
 {
+	sql.toLowerCase();
 	var defered = Q.defer();
 	connection.query(sql,[args],defered.makeNodeResolver());
 	return defered.promise;
