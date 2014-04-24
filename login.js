@@ -22,10 +22,9 @@ If the login is incorrect, a JSON with an incorrect status is passed to the clie
 //Main function
 var Get = function(req, res, next) 
 {
-	var body = req.body;
-	var user = req.params.username;
-	var password = body.password;
-	var identifier = body.identifier;
+	var user = decodeURIComponent(req.params.username);
+	var password = decodeURIComponent(req.query.password);
+	var identifier = decodeURIComponent(req.query.identifier);
 	
 	if (validator.isNull(user)||validator.isNull(password)||validator.isNull(identifier)) //Checks if inputs are null
 	{
@@ -43,8 +42,10 @@ var Get = function(req, res, next)
 	}
 	else
 	{
-		body.username = user;
-		validateUser(body).then(function(response)
+		args = {};
+		args.username = user;
+		args.password = password;
+		validateUser(args).then(function(response)
 		{
 			response.success = true;
 			res.json(response);

@@ -1,3 +1,3 @@
-var token = 'dZd98qzpsZzJT3jSB4MMGpZYKPRGvd9c+duLqRre7GU=';
+var token = 'yjXCYrvUTpOsM2f5Rcx/cQD5klOtcLcT5w1HrFl0GF4=';
 
-console.log(token.length);
+console.log(encodeURIComponent(token));

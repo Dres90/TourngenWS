@@ -18,8 +18,7 @@ Returns a JSON with the tournaments that matter to the user
 //Main function
 var GetAll = function(req, res, next) 
 {
-	var body = req.body;
-	var token = body.token;
+	var token = decodeURIComponent(req.query.token);
 	
 	if (validator.isNull(token))
 	{
@@ -321,7 +320,7 @@ Returns a JSON describing the tournament
 var Get = function(req, res, next) 
 {
 	var id = req.params.id;
-	var token = req.body.token;
+	var token = decodeURIComponent(req.query.token);
 	
 	if (validator.isNull(token))
 	{

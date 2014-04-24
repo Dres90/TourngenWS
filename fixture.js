@@ -18,9 +18,8 @@ Returns a JSON with the fixtures in the tournament
 //Main function
 var GetAll = function(req, res, next) 
 {
-	var body = req.body;
-	var token = body.token;
-	var tournament = body.tournament;
+	var token = decodeURIComponent(req.query.token);
+	var tournament = decodeURIComponent(req.query.tournament);
 	
 	if (validator.isNull(token)||validator.isNull(tournament))
 	{
@@ -126,7 +125,7 @@ Returns a JSON describing the fixture
 var Get = function(req, res, next) 
 {
 	var id = req.params.id;
-	var token = req.body.token;
+	var token = decodeURIComponent(req.query.token);
 	
 	if (validator.isNull(token))
 	{
