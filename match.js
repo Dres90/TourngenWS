@@ -221,10 +221,8 @@ function getMatch(match,user)
 	return deferred.promise;
 }
 
-/*---Match GET Web Service
-Receives a JSON with the token identifying the client
-And the match id as a url parameter
-Returns a JSON describing the match
+/*---Match PUT Web Service
+
 */	
 //Main function
 var Put = function(req, res, next) 
@@ -330,7 +328,7 @@ function updateMatch(m)
 {
 	var deferred = Q.defer();
 	var sql = 'UPDATE `match` SET last_updated = ?';
-	var params = [];
+	var params = [];                                               
 	var now = new Date();
 	var sqlnow = util.mysql_date(now);
 	params[0] = now;
@@ -372,7 +370,23 @@ function updateMatch(m)
 	
 	util.query(sql,params).then(function(result)
 	{
+		deferred.resolve(getLast_updated(m.id));
+	}, function(err)
+	{
+		deferred.reject(err);
+	}
+	);
+	return deferred.promise;
+}
+function getLast_updated(match)
+{
+	var deferred = Q.defer();
+	var sql = 'SELECT `last_updated` FROM `match` where match_id=?';
+	params = [match];
+	util.query(sql,params).then(function(result)
+	{
 		var response = {};
+		response.last_updated = result[0][0].last_updated;
 		deferred.resolve(response);
 		
 	}, function(err)
