@@ -68,7 +68,7 @@ function getUserID(token)
 function getTournaments(user)
 {
 	var deferred = Q.defer();
-	var sql = 'SELECT distinct T.Tournament_id, T.Name, T.Date_start, T.date_end, T.Home_and_away, T.Info, T.Last_updated, T.Status, T.Public, IF(user_id = ?,G.Privilege_id,5) as privilege_id FROM tournament as T LEFT JOIN tournament_rights as G on T.tournament_id = G.tournament_id where user_id = ? or (user_id <> ? AND public = true and G.Tournament_id not in (select T.Tournament_id FROM tournament as T LEFT JOIN tournament_rights as G on T.tournament_id = G.tournament_id where user_id = ?)) order by privilege_id;';
+	var sql = 'SELECT distinct T.Tournament_id, T.Name, T.Date_start, T.date_end, T.Home_and_away, T.Info, T.Last_updated, T.Status, T.Public, IF(user_id = ?,G.Privilege_id,5) as privilege_id FROM tournament as T LEFT JOIN tournament_rights as G on T.tournament_id = G.tournament_id where T.Status=1 and user_id = ? or (user_id <> ? AND public = true and G.Tournament_id not in (select T.Tournament_id FROM tournament as T LEFT JOIN tournament_rights as G on T.tournament_id = G.tournament_id where user_id = ?)) order by privilege_id;';
 	var params = [user,user,user,user];
 	util.query(sql,params).then(function(result)
 	{
@@ -371,7 +371,7 @@ function getUserIDget(tournament,token)
 function getTournament(user,tournament)
 {
 	var deferred = Q.defer();
-	var sql = 'SELECT distinct T.Tournament_id, T.Name, T.Date_start, T.date_end, T.Home_and_away, T.Info, T.Last_updated, T.Status, T.Public, IF(user_id = ?,G.Privilege_id,5) as privilege_id FROM tournament as T LEFT JOIN tournament_rights as G on T.tournament_id = G.tournament_id where (user_id = ? or (user_id <> ? AND public = true AND G.Tournament_id not in (select T.Tournament_id FROM tournament as T LEFT JOIN tournament_rights as G on T.tournament_id = G.tournament_id where user_id = ?))) AND T.tournament_id = ? order by privilege_id;';
+	var sql = 'SELECT distinct T.Tournament_id, T.Name, T.Date_start, T.date_end, T.Home_and_away, T.Info, T.Last_updated, T.Status, T.Public, IF(user_id = ?,G.Privilege_id,5) as privilege_id FROM tournament as T LEFT JOIN tournament_rights as G on T.tournament_id = G.tournament_id where T.Status=1 and (user_id = ? or (user_id <> ? AND public = true AND G.Tournament_id not in (select T.Tournament_id FROM tournament as T LEFT JOIN tournament_rights as G on T.tournament_id = G.tournament_id where user_id = ?))) AND T.tournament_id = ? order by privilege_id;';
 	var params = [user,user,user,user,tournament];
 	util.query(sql,params).then(function(result)
 	{
