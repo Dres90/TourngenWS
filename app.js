@@ -43,5 +43,10 @@ app.get('/Match/', match.GetAll);
 app.get('/Match/:id', match.Get);
 app.put('/Match/:id', match.Put);
 
+app.get('/Download', function(req, res){
+  var file = __dirname + '/Tourngen.apk';
+  res.download(file); // Set disposition and send it.
+});
+
 https.createServer(connect.certificate,app).listen(2800);
 console.log('Server started on 2800');
