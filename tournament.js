@@ -68,7 +68,7 @@ function getUserID(token)
 function getTournaments(user)
 {
 	var deferred = Q.defer();
-	var sql = 'SELECT distinct T.Tournament_id, T.Name, T.Date_start, T.date_end, T.Home_and_away, T.Info, T.Last_updated, T.Status, T.Public, IF(user_id = ?,G.Privilege_id,5) as privilege_id FROM tournament as T LEFT JOIN tournament_rights as G on T.tournament_id = G.tournament_id where T.Status=1 and user_id = ? or (user_id <> ? AND public = true and G.Tournament_id not in (select T.Tournament_id FROM tournament as T LEFT JOIN tournament_rights as G on T.tournament_id = G.tournament_id where user_id = ?)) order by privilege_id;';
+	var sql = 'SELECT distinct T.Tournament_id, T.Name, T.Date_start, T.date_end, T.Home_and_away, T.Info, T.Last_updated, T.Status, T.Public, IF(user_id = ?,G.Privilege_id,5) as privilege_id FROM tournament as T LEFT JOIN tournament_rights as G on T.tournament_id = G.tournament_id where T.Status=1 and (user_id = ? or (user_id <> ? AND public = true and G.Tournament_id not in (select T.Tournament_id FROM tournament as T LEFT JOIN tournament_rights as G on T.tournament_id = G.tournament_id where user_id = ?))) order by privilege_id;';
 	var params = [user,user,user,user];
 	util.query(sql,params).then(function(result)
 	{
@@ -173,6 +173,22 @@ function insertRights(user,b,ids)
 {
 	var deferred = Q.defer();
 	var sql = 'INSERT into tournament_rights VALUES (?,?,1);';
+	var params = [ids.tournament,user];
+	util.query(sql,params).then(function(result)
+	{
+		deferred.resolve(insertGuardianRights(user,b,ids));	
+	}, function(err)
+	{
+		deferred.reject(err);
+	}
+	);
+	return deferred.promise;
+}
+//Inserts permissions for django guardian
+function insertGuardianRights(user,b,ids)
+{
+	var deferred = Q.defer();
+	var sql = 'INSERT into guardian_userobjectpermission VALUES (null,36,11,?,?);';
 	var params = [ids.tournament,user];
 	util.query(sql,params).then(function(result)
 	{
