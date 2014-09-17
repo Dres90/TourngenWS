@@ -547,6 +547,7 @@ function updateTournament(t)
 	util.query(sql,params).then(function(result)
 	{
 		var response = {};
+		response.last_updated=sqlnow;
 		deferred.resolve(response);
 		
 	}, function(err)
