@@ -318,6 +318,7 @@ function insertMatches(b,ids)
 			}
 		}
 		ids.matches = dict;
+		ids.last_updated = sqlnow;
 		deferred.resolve(ids);	
 	}, function(err)
 	{
