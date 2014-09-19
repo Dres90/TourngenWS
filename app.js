@@ -20,8 +20,11 @@ var bodyParser = require('body-parser');
 var app = express();
 app.use(bodyParser());
 
+var jStatus = {};
+jStatus.status=1;
+jStatus.message="Tourngen Web Services, contact acardenas90@gmail.com";
 app.get('/',function(req,res,next)
-{res.send("Tourngen Web Services, contact acardenas90@gmail.com")});
+{res.send(jStatus)});
 
 app.get('/Login/:username', login.Get);
 app.post('/Login/', login.Post);
