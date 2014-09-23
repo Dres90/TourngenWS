@@ -527,13 +527,13 @@ function updateTournament(t)
 		params[i]=t.info;
 		i++;
 	}
-	if (t.hasOwnProperty(status))
+	if (t.status)
 	{
 		sql = sql + ', status = ?';
 		params[i]=t.status;
 		i++;
 	}
-	if (t.hasOwnProperty(is_public))
+	if (t.is_public)
 	{
 		sql = sql + ', public = ?';
 		params[i]=t.is_public;
