@@ -345,7 +345,7 @@ function updateMatch(m)
 		params[i]=m.info
 		i++;
 	}
-	if (m.played)
+	if (m.hasOwnProperty(played))
 	{
 		sql = sql + ', played = ?';
 		params[i]=m.played
