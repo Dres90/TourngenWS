@@ -9,7 +9,6 @@ Andres Cardenas
 var util = require ('./utilities.js');
 var validator = require('validator');
 var Q = require('q');
-
 /*---Tournament GET All Web Service
 Receives a JSON with the token identifying the client
 Returns a JSON with the tournaments that matter to the user
@@ -284,6 +283,7 @@ function insertMatches(b,ids)
 	var sqlnow = util.mysql_date(now);
 	var sql = 'INSERT into `match` VALUES ?;';
 	var params = [];
+	var k = 0;
 	for (var i = 0; i < b.fixtures.length; i++) 
 	{
 		var fixture = b.fixtures[i];
@@ -301,7 +301,8 @@ function insertMatches(b,ids)
 			match[8] = fixture.matches[j].score_home;
 			match[9] = fixture.matches[j].score_away;
 			match[10] = fixture.matches[j].played;
-			params[i]=match;
+			params[k]=match;
+			k++;
 		}
 	}
 	util.bulkQuery(sql,params).then(function(result)
